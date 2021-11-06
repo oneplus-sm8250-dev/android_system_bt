@@ -102,6 +102,10 @@ struct ApcfCommand {
   std::vector<uint8_t> data;
   std::vector<uint8_t> data_mask;
   std::array<uint8_t, 16> irk;  // 128 bit/16 octet IRK
+  uint8_t org_id;
+  uint8_t tds_flags;
+  uint8_t tds_flags_mask;
+  bool group_filter_enabled;
 };
 
 #endif /* ANDROID_INCLUDE_BT_COMMON_TYPES_H */

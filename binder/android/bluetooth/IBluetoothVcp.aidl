@@ -1,5 +1,10 @@
 /*
- * Copyright 2017 The Android Open Source Project
+ *Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ *Not a contribution
+ */
+
+/*
+ * Copyright 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +18,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package android.bluetooth.le;
+
+package android.bluetooth;
 
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.PeriodicAdvertisingReport;
 
 /**
- * Callback definitions for interacting with Periodic Advertising
+ * APIs for Bluetooth Vcp Service
+ *
  * @hide
  */
-oneway interface IPeriodicAdvertisingCallback {
-
-  void onSyncEstablished(in int syncHandle, in BluetoothDevice device, in int advertisingSid,
-                         in int skip, in int timeout, in int status);
-  void onPeriodicAdvertisingReport(in PeriodicAdvertisingReport report);
-  void onSyncLost(in int syncHandle);
-  void onSyncTransfered(in BluetoothDevice device, in int status);
+interface IBluetoothVcp {
+    // Public API
+    int getConnectionState(in BluetoothDevice device);
+    int getConnectionMode(in BluetoothDevice device);
+    void setAbsoluteVolume(in BluetoothDevice device, int volume);
+    int getAbsoluteVolume(in BluetoothDevice device);
+    void setMute (in BluetoothDevice device, in boolean enableMute);
+    boolean isMute(in BluetoothDevice device);
 }

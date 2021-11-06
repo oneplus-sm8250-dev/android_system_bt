@@ -54,10 +54,15 @@ typedef enum {
   BTAV_A2DP_CODEC_INDEX_SOURCE_APTX,
   BTAV_A2DP_CODEC_INDEX_SOURCE_APTX_HD,
   BTAV_A2DP_CODEC_INDEX_SOURCE_LDAC,
-
   BTAV_A2DP_CODEC_INDEX_SOURCE_MAX,
+  BTAV_A2DP_CODEC_INDEX_SOURCE_APTX_ADAPTIVE =
+                                 BTAV_A2DP_CODEC_INDEX_SOURCE_MAX,
+  BTAV_A2DP_CODEC_INDEX_SOURCE_APTX_TWS,
 
-  BTAV_A2DP_CODEC_INDEX_SINK_MIN = BTAV_A2DP_CODEC_INDEX_SOURCE_MAX,
+  BTAV_A2DP_QVA_CODEC_INDEX_SOURCE_MAX,
+
+  BTAV_A2DP_CODEC_INDEX_SINK_MIN =
+                             BTAV_A2DP_QVA_CODEC_INDEX_SOURCE_MAX,
 
   // Add an entry for each sink codec here
   BTAV_A2DP_CODEC_INDEX_SINK_SBC = BTAV_A2DP_CODEC_INDEX_SINK_MIN,
@@ -92,7 +97,9 @@ typedef enum {
   BTAV_A2DP_CODEC_SAMPLE_RATE_176400 = 0x1 << 4,
   BTAV_A2DP_CODEC_SAMPLE_RATE_192000 = 0x1 << 5,
   BTAV_A2DP_CODEC_SAMPLE_RATE_16000 = 0x1 << 6,
-  BTAV_A2DP_CODEC_SAMPLE_RATE_24000 = 0x1 << 7
+  BTAV_A2DP_CODEC_SAMPLE_RATE_24000 = 0x1 << 7,
+  BTAV_A2DP_CODEC_SAMPLE_RATE_32000 = 0x1 << 8,
+  BTAV_A2DP_CODEC_SAMPLE_RATE_8000 = 0x1 << 9
 } btav_a2dp_codec_sample_rate_t;
 
 typedef enum {
@@ -151,8 +158,14 @@ typedef struct {
       case BTAV_A2DP_CODEC_INDEX_SOURCE_APTX_HD:
         codec_name_str = "aptX HD";
         break;
+      case BTAV_A2DP_CODEC_INDEX_SOURCE_APTX_ADAPTIVE:
+        codec_name_str = "aptX Adaptive";
+        break;
       case BTAV_A2DP_CODEC_INDEX_SOURCE_LDAC:
         codec_name_str = "LDAC";
+        break;
+      case BTAV_A2DP_CODEC_INDEX_SOURCE_APTX_TWS:
+        codec_name_str = "aptX TWS";
         break;
       case BTAV_A2DP_CODEC_INDEX_SINK_SBC:
         codec_name_str = "SBC (Sink)";
