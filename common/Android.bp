@@ -19,6 +19,7 @@ cc_library_static {
         "system/bt/stack/include",
         "system/bt/gd/rust/shim",
     ],
+    // TODO (b/121280692) address_obfuscator.cc still reverted
     srcs: [
         "address_obfuscator.cc",
         "message_loop_thread.cc",
