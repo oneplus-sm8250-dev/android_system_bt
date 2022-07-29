@@ -139,7 +139,8 @@ class BleScannerInterface {
   virtual void ScanFilterEnable(bool enable, EnableCallback cb) = 0;
 
   /** Sets the LE scan interval and window in units of N*0.625 msec */
-  virtual void SetScanParameters(int scan_interval, int scan_window,
+  virtual void SetScanParameters(int scan_phy, std::vector<uint32_t> scan_interval,
+                                 std::vector<uint32_t> scan_window,
                                  Callback cb) = 0;
 
   /* Configure the batchscan storage */
@@ -173,6 +174,17 @@ class BleScannerInterface {
   virtual void StopSync(uint16_t handle) = 0;
 
   virtual void RegisterCallbacks(ScanningCallbacks* callbacks) = 0;
+
+  virtual void CancelCreateSync(uint8_t sid, RawAddress address) = 0;
+  using SyncTransferCb =
+       base::Callback<void(uint8_t /*status*/, RawAddress /*addr*/)>;
+
+  virtual void TransferSync(RawAddress address, uint16_t service_data,
+                         uint16_t sync_handle, SyncTransferCb cb) = 0;
+  virtual void TransferSetInfo(RawAddress address, uint16_t service_data,
+                         uint8_t adv_handle, SyncTransferCb cb) = 0;
+  virtual void SyncTxParameters(RawAddress addr, uint8_t mode, uint16_t skip,
+                                uint16_t timeout,StartSyncCb start_cb) = 0;
 };
 
 #endif /* ANDROID_INCLUDE_BLE_SCANNER_H */

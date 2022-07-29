@@ -71,6 +71,7 @@ interface IBluetoothManager
     boolean disableBle(in AttributionSource attributionSource, IBinder b);
     @JavaPassthrough(annotation="@android.annotation.RequiresNoPermission")
     boolean isBleAppPresent();
+    boolean factoryReset();
     @JavaPassthrough(annotation="@android.annotation.RequiresNoPermission")
     boolean isHearingAidProfileSupported();
 

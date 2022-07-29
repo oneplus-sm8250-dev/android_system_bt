@@ -338,6 +338,16 @@ void bta_av_conn_cback(UNUSED_ATTR uint8_t handle, const RawAddress& bd_addr,
     evt = BTA_AV_SIG_CHG_EVT;
     if (event == AVDT_DISCONNECT_IND_EVT) {
       p_scb = bta_av_addr_to_scb(bd_addr);
+      if (p_scb) {
+        uint16_t handle =
+            BTM_GetHCIConnHandle(p_scb->PeerAddress(), BT_TRANSPORT_BR_EDR);
+        if (bta_av_cb.offload_started_hndl == handle ||
+            bta_av_cb.offload_start_pending_hndl == handle) {
+          LOG_INFO("%s: Cleanup offload related flag", __func__);
+          bta_av_cb.offload_started_hndl = HCI_INVALID_HANDLE;
+          bta_av_cb.offload_start_pending_hndl = HCI_INVALID_HANDLE;
+        }
+      }
     } else if (event == AVDT_CONNECT_IND_EVT) {
       APPL_TRACE_DEBUG("%s: CONN_IND is ACP:%d", __func__,
                        p_data->hdr.err_param);
@@ -534,7 +544,7 @@ static void bta_av_api_register(tBTA_AV_DATA* p_data) {
     avdtp_stream_config.media_type = AVDT_MEDIA_TYPE_AUDIO;
     avdtp_stream_config.mtu = MAX_3MBPS_AVDTP_MTU;
     btav_a2dp_codec_index_t codec_index_min = BTAV_A2DP_CODEC_INDEX_SOURCE_MIN;
-    btav_a2dp_codec_index_t codec_index_max = BTAV_A2DP_CODEC_INDEX_SOURCE_MAX;
+    btav_a2dp_codec_index_t codec_index_max = BTAV_A2DP_QVA_CODEC_INDEX_SOURCE_MAX;
 
     if (bta_av_cb.features & BTA_AV_FEAT_REPORT) {
       avdtp_stream_config.cfg.psc_mask |= AVDT_PSC_REPORT;
@@ -546,7 +556,7 @@ static void bta_av_api_register(tBTA_AV_DATA* p_data) {
     if (profile_initialized == UUID_SERVCLASS_AUDIO_SOURCE) {
       avdtp_stream_config.tsep = AVDT_TSEP_SRC;
       codec_index_min = BTAV_A2DP_CODEC_INDEX_SOURCE_MIN;
-      codec_index_max = BTAV_A2DP_CODEC_INDEX_SOURCE_MAX;
+      codec_index_max = BTAV_A2DP_QVA_CODEC_INDEX_SOURCE_MAX;
     } else if (profile_initialized == UUID_SERVCLASS_AUDIO_SINK) {
       avdtp_stream_config.tsep = AVDT_TSEP_SNK;
       avdtp_stream_config.p_sink_data_cback = bta_av_sink_data_cback;
